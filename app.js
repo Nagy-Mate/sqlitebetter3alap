@@ -61,6 +61,19 @@ app.put('/users/:id', (req, res)=>{
         res.status(500).json({message: `${err}`});
     }
 });
+
+app.delete('/users/:id', (req, res)=>{
+    try{
+        const deletedUser = db.deleteUser(req.params.id);
+        if(deletedUser.changes != 1){
+             return res.status(501).json({message: "User delete failed!"})
+        }
+        res.status(200).json({message: "Deleted successful"})
+    }catch(err){
+        res.status(500).json({message: `${err}`});
+    }
+});
+
 app.listen(PORT, ()=>{
     console.log(`server runs on port: ${PORT}`)
 });
